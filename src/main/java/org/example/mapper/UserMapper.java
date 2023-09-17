@@ -16,8 +16,8 @@ public interface UserMapper {
     @Insert("insert into user (uu, `type`) values (#{user.uu}, #{user.type})")
     int insert(@Param("user") User user);
 
-    @Select("select * from user where `type`=#{req.gcType}")
-    User selectByRequestParam(@Param("req") RequestParam req);
+    @Select("select count(*) from user where `type`=#{req.gcType}")
+    int selectCntByRequestParam(@Param("req") RequestParam req);
 
 
     @Getter

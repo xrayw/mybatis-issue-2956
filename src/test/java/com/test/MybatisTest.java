@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,17 @@ public class MybatisTest {
     private SqlSessionFactory sqlSessionFactory;
     @Autowired
     private UserMapper userMapper;
+
+    @Test(expected = UncategorizedSQLException.class)
+    public void testInsertZgcException() {
+        User user = new User();
+        user.setUu("user1");
+        user.setType(GcType.ZGC);
+
+        // this will throw:
+        //   java.sql.SQLException: Incorrect integer value: 'ZGC' for column 'type' at row 1
+        userMapper.insert(user);
+    }
 
     @Test
     public void testEnumTypeHandler() {
@@ -47,9 +59,9 @@ public class MybatisTest {
         RequestParam req = new RequestParam();
         req.setGcType(GcType.ZGC);
 
-        // actual:   select * from user where `type` = 'ZGC';
-        // expected: select * from user where `type` = 2;
-        userMapper.selectByRequestParam(req);
+        // actual:   select count(*) from user where `type` = 'ZGC';
+        // expected: select count(*) from user where `type` = 2;
+        userMapper.selectCntByRequestParam(req);
 
         TypeHandler<GcType> typeHandler2 = typeHandlerRegistry.getTypeHandler(GcType.class);
 
