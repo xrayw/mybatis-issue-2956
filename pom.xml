@@ -73,18 +73,41 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
                     <excludes>
-                        <!-- / separated path -->
-<!--                        <exclude>org/example/typehandler/*.java</exclude>-->
+                        &lt;!&ndash; / separated path &ndash;&gt;
                         <exclude>org/example/entity/*.java</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
+            </plugin>-->
+
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.example.entity</pattern>
+                                    <shadedPattern>org.example.xxx.yyy.entity</shadedPattern>
+                                    <excludes>
+                                        <exclude>org.example.entity.User</exclude>
+                                    </excludes>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
